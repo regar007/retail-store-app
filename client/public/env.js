@@ -52,7 +52,7 @@ window.env = {
   "npm_config_cache": "/Users/ashok.regar/.npm",
   "LOGNAME": "ashok.regar",
   "npm_lifecycle_script": "react-dotenv && react-scripts start",
-  "VSCODE_GIT_IPC_HANDLE": "/var/folders/bj/wtrcyxb52y10zg7kt9t4cq8w0000gn/T/vscode-git-216a720a56.sock",
+  "VSCODE_GIT_IPC_HANDLE": "/var/folders/bj/wtrcyxb52y10zg7kt9t4cq8w0000gn/T/vscode-git-556484962a.sock",
   "NVM_BIN": "/Users/ashok.regar/.nvm/versions/node/v16.15.0/bin",
   "npm_config_user_agent": "npm/8.5.5 node/v16.15.0 darwin arm64 workspaces/false",
   "VSCODE_GIT_ASKPASS_NODE": "/Applications/Visual Studio Code.app/Contents/Frameworks/Code Helper (Plugin).app/Contents/MacOS/Code Helper (Plugin)",
