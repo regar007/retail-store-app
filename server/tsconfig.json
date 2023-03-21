@@ -11,7 +11,7 @@
     "forceConsistentCasingInFileNames": true,
     "noImplicitAny": true,
   },
-  "include": ["src/**/*", "utils", "utils/data-source.ts", "src/models/.ts"],
+  "include": ["src/**/*", "utils", "utils/data-source.ts", "src/models/.ts", "src/type.d.ts"],
   "exclude": ["src/types/*.ts", "node_modules", ".vscode"]
 }
 

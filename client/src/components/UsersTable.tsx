@@ -7,12 +7,12 @@ import { Stack } from "@mui/system";
 import { Button } from "@mui/material";
 import ConfirmationDialog from "./confirmation/ConfirmationDialog";
 
-type DataTableProps = {
+type UsersTableProps = {
   rows: any;
   onEdit: (row: User) => void;
   onDelete: (row: User) => void;
 };
-const DataTable: React.FC<DataTableProps> = ({ rows, onEdit, onDelete }) => {
+const UsersTable: React.FC<UsersTableProps> = ({ rows, onEdit, onDelete }) => {
   const [showDeleteConfirmation, setShowDeleteConfirmation] =
     React.useState<User | null>(null);
   function renderActions(row: User) {
@@ -104,4 +104,4 @@ const DataTable: React.FC<DataTableProps> = ({ rows, onEdit, onDelete }) => {
   );
 };
 
-export default DataTable;
+export default UsersTable;

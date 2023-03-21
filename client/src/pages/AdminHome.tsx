@@ -1,15 +1,15 @@
-import { Stack, Typography } from "@mui/material";
+import { Button, Stack, Typography } from "@mui/material";
 import React, { useState } from "react";
 import { NotificationManager } from "react-notifications";
 import { useSelector } from "react-redux";
 import userService from "../api/user.api";
-import DataTable from "../components/DataTable";
+import DataTable from "../components/UsersTable";
 import UserDialog from "../components/user-dialog/UserDialog";
 import { User, UserInitialState } from "../redux-store/user.reducer";
-import { Page } from "../types/type";
+import { UserPage } from "../types/type";
 
 export const AdminHome: React.FC = (): JSX.Element => {
-  const [user, setUser] = useState<User>();
+  const [user, setUser] = useState<User | null>(null);
   const [openUserDialog, setOpenUserDialog] = useState<boolean>(false);
 
   const [data, setData] = React.useState<User[]>([]);
@@ -19,7 +19,7 @@ export const AdminHome: React.FC = (): JSX.Element => {
   );
 
   const getUsers = async () => {
-    const usersPage: Page | Error = await userService.getUsers(
+    const usersPage: UserPage | Error = await userService.getUsers(
       loggedInUser.user?.id || ""
     );
     if (usersPage instanceof Error) {
@@ -37,11 +37,17 @@ export const AdminHome: React.FC = (): JSX.Element => {
   console.log("admin home  ", user, openUserDialog);
 
   return (
-    <Stack columnGap={2} direction="column" sx={{ padding: "5%" }}>
+    <Stack rowGap={2} direction="column" sx={{ padding: "5%" }}>
       <Typography variant="h3">Home</Typography>
 
-      <Stack columnGap={1} direction="column" sx={{ paddingY: "5%" }}>
+      <Stack rowGap={1} direction="column" sx={{ paddingY: "5%" }}>
+        <Stack direction={'row'} justifyContent={'space-between'}>
         <Typography variant="h6">Users</Typography>
+        <Button onClick={() => {
+          setUser(null)
+          setOpenUserDialog(true)
+        }} variant="contained" >Add User</Button>
+        </Stack>
         {data.length && (
           <DataTable
             rows={data}

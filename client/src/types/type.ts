@@ -22,8 +22,24 @@ type PageInfo = {
   totalCount: number;
 }
 
-export type Page = {
+export type UserPage = {
   nodes: User[];
 
   pageInfo: PageInfo;
+};
+
+
+export type PricingPage = {
+  nodes: User[];
+
+  pageInfo: PageInfo;
+};
+
+
+export type SearchOptions = {
+  productName?: string;
+
+  sku?: number;
+
+  price?: number,  
 };

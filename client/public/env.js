@@ -38,7 +38,7 @@ window.env = {
   "JAVA_HOME": "/Library/Java/JavaVirtualMachines/temurin-8.jdk/Contents/Home",
   "npm_lifecycle_event": "start",
   "EDITOR": "vi",
-  "npm_package_name": "jotali",
+  "npm_package_name": "retail-store-ui",
   "LANG": "en_US.UTF-8",
   "VSCODE_GIT_ASKPASS_EXTRA_ARGS": "--ms-enable-electron-run-as-node",
   "XPC_FLAGS": "0x0",

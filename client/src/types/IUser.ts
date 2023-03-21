@@ -1,9 +1,9 @@
 import { User } from "../redux-store/user.reducer";
-import { LoginResponse, Page } from "./type";
+import { LoginResponse, UserPage } from "./type";
 
 export default interface IUser {
   login(email: string, password: string): Promise<LoginResponse | Error>;
-  getUsers(creatorId: string, storeId?: string): Promise<Page | Error>;
+  getUsers(creatorId: string, storeId?: string): Promise<UserPage | Error>;
 
   create(userData: User, creatorId: string): Promise<User | Error>;
 

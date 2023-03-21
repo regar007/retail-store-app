@@ -35,7 +35,7 @@ const readSession = () => {
   return sessionValue;
 };
 
-const clearCookie = () => {
+const clearSession = () => {
     
     if(window.localStorage) 
       window.localStorage.clear();
@@ -46,7 +46,7 @@ const clearCookie = () => {
 
 export default {
   readSession,
-  clearCookie,
+  clearSession,
   writeLocalStorage,
   readLocalStorage,
   SESSION_TIMEOUT,

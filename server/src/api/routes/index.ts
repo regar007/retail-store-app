@@ -1,6 +1,6 @@
 import { Application, NextFunction, Request, Response, Router } from 'express'
-import userRouter from './user/router'
-import storeRouter from './pricing-feed/router'
+import userRouter from './user.router'
+import storeRouter from './records.router'
 import UserData from '../../AuthServer/types/UserData'
 import { JWT_ACCESS_TOKEN_PRIVATE_KEY } from '../../utils/config'
 const jwt = require('jsonwebtoken')

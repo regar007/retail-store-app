@@ -1,5 +1,5 @@
 import express from 'express';
-import controller from './user-controller';
+import controller from '../controllers/user-controller';
 
 export default express
     .Router()    

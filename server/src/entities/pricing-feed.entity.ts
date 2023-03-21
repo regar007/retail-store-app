@@ -55,7 +55,8 @@ export default class PricingFeed extends BaseEntity {
     type: "timestamp",
     name: "edited_date",
     default: () => "NOW()::timestamp",
+    nullable: true
   })
-  editeddDate!: Date;
+  editeddDate?: Date;
 
 }

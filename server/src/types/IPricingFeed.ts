@@ -1,6 +1,8 @@
 import User, { UserType } from "../entities/user.entity";
 import PricingFeed, { Currency } from "../entities/pricing-feed.entity";
 import { ConnectionResult, PricingFeedConnection, UserConnection } from "../models/page-info";
+import { SearchOptions } from "../type";
+import { QueryRunner } from "typeorm";
 
 export default interface IPricingFeed {
 
@@ -12,6 +14,8 @@ export default interface IPricingFeed {
    */
   getRecords(
     userId?: string,
+    storeId?: string,
+    searchOptions?: SearchOptions,
     skip?: number,
     limit?: number
   ): Promise<PricingFeedConnection | null>;
@@ -30,6 +34,7 @@ export default interface IPricingFeed {
    * @param editeddDate - Edited Date
    */
   createRecord(
+    qr: QueryRunner,
     storeId: string,
     productName: string,
     sku: number,
@@ -38,7 +43,7 @@ export default interface IPricingFeed {
     createdByUserId: string,
     editedByUserId: string | undefined,
     createdDate: Date,
-    editeddDate: Date
+    editeddDate?: Date
   ): Promise<PricingFeed | undefined>;
 
   /**
@@ -55,6 +60,7 @@ export default interface IPricingFeed {
    * @param editeddDate - Edited Date
    */
   updateRecord(
+    qb: QueryRunner,
     id: string,    
     storeId: string,
     productName: string,
@@ -65,7 +71,7 @@ export default interface IPricingFeed {
     editedByUserId: string,
     createdDate: Date,
     editeddDate: Date
-  ): Promise<PricingFeed | undefined>;
+  ): Promise<PricingFeed>;
 
   search(
     storeId:string,

@@ -18,7 +18,7 @@ import {
 import { AxiosError } from "axios";
 
 type UserDialogProps = {
-  user?: User;
+  user: User | null;
 
   isOpen: boolean;
 
@@ -44,7 +44,7 @@ const UserDialog: React.FC<UserDialogProps> = ({
     handleSubmit,
     formState: { errors },
   } = useForm({
-    defaultValues: user
+    defaultValues: user || {}
   });
 
   //   const handleClickOpen = () => {
@@ -103,7 +103,7 @@ const UserDialog: React.FC<UserDialogProps> = ({
         aria-labelledby="responsive-dialog-title"
       >
         <DialogTitle id="responsive-dialog-title">
-          {user ? `Create User` : `Update User`}
+          {!user ? `Create User` : `Update User`}
         </DialogTitle>
         <DialogContent>
           <form className="user-form" onSubmit={handleSubmit(saveUser)}>

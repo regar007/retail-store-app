@@ -1,5 +1,7 @@
+import { QueryRunner } from "typeorm";
 import PricingFeed, { Currency } from "../entities/pricing-feed.entity";
 import { PricingFeedConnection } from "../models/page-info";
+import { SearchOptions } from "../type";
 import IPricingFeed from "../types/IPricingFeed";
 import { getPageInfo } from "../utils/app-utils";
 import { AppDataSource } from "../utils/data-source";
@@ -8,15 +10,33 @@ export default class PricingFeedDataSQLStore implements IPricingFeed {
  
   getRecords = async (
     userId?: string,
+    storeId?: string,
+    searchOptions?: SearchOptions,
     skip?: number,
     limit?: number
   ): Promise<PricingFeedConnection | null> => {
+    console.log('getRecords searchOptions', searchOptions)
+
     const qb = AppDataSource.getRepository(PricingFeed)
     .createQueryBuilder("record")
     .select();
 
+    if(storeId){
+      qb.where('record.storeId = :storeId').setParameter("storeId", storeId);
+    }
+
     if (userId) {
-      qb.where("record.userId = :userId").setParameter("userId", userId);
+      qb.andWhere("record.created_by_user_id = :userId").setParameter("userId", userId);
+    }
+
+    if (searchOptions?.productName) {
+      qb.andWhere("record.product_name LIKE :productName").setParameter("productName", `%${searchOptions?.productName}%`);
+    } 
+    if (searchOptions?.price) {
+      qb.andWhere("CONVERT(varchar(20), record.price) LIKE :price").setParameter("price", `%${searchOptions?.price}%`);
+    }
+    if (searchOptions?.sku) {
+      qb.andWhere("CONVERT(varchar(20), record.sku) LIKE :sku").setParameter("sku", `%${searchOptions?.sku}%`);
     }
 
     if (skip !== undefined) {
@@ -25,6 +45,7 @@ export default class PricingFeedDataSQLStore implements IPricingFeed {
     if (limit !== undefined) {
       qb.limit(limit);
     }
+    
 
     const [nodes, totalCount] = await qb.getManyAndCount();
 
@@ -36,6 +57,7 @@ export default class PricingFeedDataSQLStore implements IPricingFeed {
 
 
   createRecord = async(
+    qb: QueryRunner,
     storeId: string,
     productName: string,
     sku: number,
@@ -44,7 +66,7 @@ export default class PricingFeedDataSQLStore implements IPricingFeed {
     createdByUserId: string,
     editedByUserId: string | undefined,
     createdDate: Date,
-    editeddDate: Date
+    editeddDate?: Date
   ): Promise<PricingFeed | undefined> => {
     let record = new PricingFeed()
     record.productName = productName
@@ -56,16 +78,17 @@ export default class PricingFeedDataSQLStore implements IPricingFeed {
     record.editedByUserId = editedByUserId
     record.createdDate = createdDate
     record.editeddDate = editeddDate
-    const result = await AppDataSource.getRepository(PricingFeed).create(record)
+    const result = await qb.manager.save(record)
     if(result.id){
         return result
     }else {
-        return undefined
+        throw new Error(`failed to create ${productName} `)
     }
   }
 
 
   updateRecord = async (
+    qb: QueryRunner,
     id: string,    
     storeId: string,
     productName: string,
@@ -76,7 +99,7 @@ export default class PricingFeedDataSQLStore implements IPricingFeed {
     editedByUserId: string,
     createdDate: Date,
     editeddDate: Date
-  ): Promise<PricingFeed | undefined> => {
+  ): Promise<PricingFeed> => {
     let record = new PricingFeed()
     record.id = id
     record.productName = productName
@@ -88,13 +111,10 @@ export default class PricingFeedDataSQLStore implements IPricingFeed {
     record.editedByUserId = editedByUserId
     record.createdDate = createdDate
     record.editeddDate = editeddDate
-    const result = await AppDataSource.getRepository(PricingFeed).update({id}, record)
-    if(result.affected){
-        return record
-    }else {
-        return undefined
-    }
+    await qb.manager.getRepository(PricingFeed).update({id}, record)
+    return record
   }
+    
 
   search = async( 
     storeId: string,
@@ -104,33 +124,6 @@ export default class PricingFeedDataSQLStore implements IPricingFeed {
     skuQuery?: string,
     priceQuery?: string,
   ): Promise<PricingFeedConnection | null> => {
-    const qb = AppDataSource.getRepository(PricingFeed)
-    .createQueryBuilder("record")
-    .select()
-    .where('record.storeId = :storeId').setParameter("storeId", storeId);
-
-    if (productNameQuery) {
-      qb.andWhere("record.product_name LIKE %productNameQuery%").setParameter("productNameQuery", productNameQuery);
-    } 
-    if (skuQuery) {
-      qb.andWhere("CONVERT(varchar(20), record.sku) LIKE %skuQuery%").setParameter("skuQuery", skuQuery);
-    }
-    if (skuQuery) {
-      qb.andWhere("CONVERT(varchar(20), record.price) LIKE %priceQuery%").setParameter("priceQuery", priceQuery);
-    }
-
-    if (skip !== undefined) {
-      qb.offset(skip);
-    }
-    if (limit !== undefined) {
-      qb.limit(limit);
-    }
-
-    const [nodes, totalCount] = await qb.getManyAndCount();
-
-    return {
-      nodes,
-      pageInfo: getPageInfo(totalCount, limit, skip),
-    };
+    throw new Error('not implemented')
   }
 }

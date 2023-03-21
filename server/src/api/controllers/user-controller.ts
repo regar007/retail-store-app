@@ -1,16 +1,16 @@
 import { Request, Response } from "express";
 import { validate } from "class-validator";
-import UserService from "./../../services/user.service";
-import logger from "../../../utils/loggers/userLogger";
+import UserService from "../services/user.service";
+import logger from "../../utils/loggers/userLogger";
 
-import { DATA_STORE } from "../../../utils/config";
+import { DATA_STORE } from "../../utils/config";
 import * as bcrypt from "bcrypt";
-import { getRequestId } from "../../../utils/app-utils";
-import IUser from "../../../types/IUsers";
-import UserDataSQLStore from "../../../datastore/UserDataSQLStore";
-import User, { UserType } from "../../../entities/user.entity";
+import { getRequestId } from "../../utils/app-utils";
+import IUser from "../../types/IUsers";
+import UserDataSQLStore from "../../datastore/UserDataSQLStore";
+import User, { UserType } from "../../entities/user.entity";
 import { plainToClass } from "class-transformer";
-import userService from "./../../services/user.service";
+import userService from "../services/user.service";
 
 export class UserController {
   create = async (req: Request, res: Response): Promise<void> => {

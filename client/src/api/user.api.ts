@@ -2,7 +2,7 @@ import axios, { AxiosResponse } from "axios";
 import IUser from "../types/IUser";
 import { API_URL, AUTH_URL } from "../config";
 import { User } from "../redux-store/user.reducer";
-import { LoginResponse, Page } from "../types/type";
+import { LoginResponse, UserPage } from "../types/type";
 import { setAuthHeaders } from "./rest";
 
 class UserService implements IUser {
@@ -22,7 +22,7 @@ class UserService implements IUser {
     }
   }
 
-  async getUsers(creatorId: string, storeId?: string): Promise<Page | Error> {
+  async getUsers(creatorId: string, storeId?: string): Promise<UserPage | Error> {
     try {
       let url = `${API_URL}/user/all`;
       let options = {
@@ -33,13 +33,13 @@ class UserService implements IUser {
         },
       };
 
-      const response: AxiosResponse<Page> = await axios.post(
+      const response: AxiosResponse<UserPage> = await axios.post(
         url,
         { userId: creatorId, storeId },
         setAuthHeaders(options)
       );
       //   const response: any = await handleApiCall({url, body: {userId: creatorId, storeId},options: setAuthHeaders(options) })
-      const users: Page = await response.data;
+      const users: UserPage = await response.data;
       console.log("users ", users);
       return users;
     } catch (error) {
