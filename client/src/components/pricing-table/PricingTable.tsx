@@ -29,53 +29,10 @@ const PricingTable: React.FC<PricingTableProps> = () => {
   const [editedRows, setEditedRows] = React.useState<PricingRecord[]>([]);
   const [showUpdateConfirmation, setShowUpdateConfirmation] =
     React.useState<boolean>(false);
-  const [searchOptions, setSearchOptions] = React.useState<SearchOptions>({});
 
-  const setProductSearchQueryText = useDebouncedSearch(
-    "",
-    React.useCallback((value: string) => {
-      return recordsService
-        .getRecords(
-          loggedInUser.user?.id!,
-          loggedInUser.user?.storeId,
-          searchOptions
-        )
-        .then((response) => {
-          if (response instanceof Error) {
-            throw response;
-          }
-          setData(response.nodes);
-        })
-        .catch((e) => {
-          return e;
-        });
-    }, [])
-  );
-
-  const setPriceSearchQueryText = useDebouncedSearch(
-    "",
-    React.useCallback((value: string) => {
-      return recordsService
-        .getRecords(
-          loggedInUser.user?.id!,
-          loggedInUser.user?.storeId,
-          searchOptions
-        )
-        .then((response) => {
-          if (response instanceof Error) {
-            throw response;
-          }
-          setData(response.nodes);
-        })
-        .catch((e) => {
-          return e;
-        });
-    }, [])
-  );
-
-  const setSkuSearchQueryText = useDebouncedSearch(
-    "",
-    React.useCallback((value: string) => {
+  const { searchOptions, setSearchOptions } = useDebouncedSearch(
+    {},
+    React.useCallback((searchOptions: SearchOptions) => {
       return recordsService
         .getRecords(
           loggedInUser.user?.id!,
@@ -121,27 +78,26 @@ const PricingTable: React.FC<PricingTableProps> = () => {
   ) => {
     const value = e.target.value;
     console.log("search ", field, value);
+    let searchParams = searchOptions;
     if (field === "productName") {
-      setSearchOptions({
-        ...searchOptions,
+      searchParams = {
+        ...searchParams,
         productName: value,
-      });
-      setProductSearchQueryText(value);
+      };
     }
     if (field === "price") {
-      setSearchOptions({
-        ...searchOptions,
-        price: parseInt(value),
-      });
-      setPriceSearchQueryText(value);
+      searchParams = {
+        ...searchParams,
+        price: value,
+      };
     }
     if (field === "sku") {
-      setSearchOptions({
+      searchParams = {
         ...searchOptions,
-        sku: parseInt(value),
-      });
-      setSkuSearchQueryText(value);
+        sku: value,
+      };
     }
+    setSearchOptions(searchParams);
   };
 
   function generateColumns(keys: any) {

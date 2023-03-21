@@ -33,10 +33,10 @@ export default class PricingFeedDataSQLStore implements IPricingFeed {
       qb.andWhere("record.product_name LIKE :productName").setParameter("productName", `%${searchOptions?.productName}%`);
     } 
     if (searchOptions?.price) {
-      qb.andWhere("CONVERT(varchar(20), record.price) LIKE :price").setParameter("price", `%${searchOptions?.price}%`);
+      qb.andWhere("CAST(record.price AS TEXT) LIKE :price").setParameter("price", `%${searchOptions?.price}%`);
     }
     if (searchOptions?.sku) {
-      qb.andWhere("CONVERT(varchar(20), record.sku) LIKE :sku").setParameter("sku", `%${searchOptions?.sku}%`);
+      qb.andWhere("CAST(record.sku AS TEXT) LIKE :sku").setParameter("sku", `%${searchOptions?.sku}%`);
     }
 
     if (skip !== undefined) {

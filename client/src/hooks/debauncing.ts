@@ -1,24 +1,45 @@
 import React, { Dispatch, SetStateAction, useState } from "react";
-import { PricingPage } from "../types/type";
-
+import { PricingPage, SearchOptions } from "../types/type";
 
 const useDebouncedSearch = (
-  inititalValue: string,
-  searchFunction: (value: string) => Promise<PricingPage>
-): Dispatch<SetStateAction<string>> => {
-  const [searchValue, setSearchValue] = React.useState(inititalValue || "");
-  React.useEffect(() => {
-    if(searchValue.trim() === ''){
-        return
+  inititalValue: SearchOptions,
+  searchFunction: (value: SearchOptions) => Promise<PricingPage>
+): {
+  searchOptions: SearchOptions;
+  setSearchOptions: (value: SearchOptions) => void;
+} => {
+  const [searchValue, setSearchValue] = React.useState<SearchOptions>(
+    inititalValue || ""
+  );
+  const updateSearchValue = (value: SearchOptions) => {
+    if (
+      searchValue.productName === value.productName &&
+      searchValue.price === value.price &&
+      searchValue.sku === value.sku
+    ) {
+      return;
     }
+
+    if (
+      searchValue.productName?.trim() === "" &&
+      searchValue.price?.trim() === "" &&
+      searchValue.sku?.trim() === ""
+    ) {
+      setSearchValue({});
+      return;
+    }
+
+    setSearchValue(value);
+  };
+  React.useEffect(() => {
     const getData = setTimeout(() => {
-        searchFunction(searchValue)
+      searchFunction(searchValue);
     }, 2000);
 
     return () => clearTimeout(getData);
   }, [searchFunction, searchValue]);
-  
-  return setSearchValue;
+
+  return { searchOptions: searchValue, setSearchOptions: updateSearchValue };
 };
 
 export default useDebouncedSearch;

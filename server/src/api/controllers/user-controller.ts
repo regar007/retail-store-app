@@ -96,7 +96,7 @@ export class UserController {
     const requestId = getRequestId();
     try {
       console.log("body ", req.body);
-      const { userId, storeId, skip = 0, limit = 10 } = req.body;
+      const { userId, storeId, skip = 0, limit = 50 } = req.body;
       if (!userId) {
         throw new Error("userId is required");
       }

@@ -73,7 +73,7 @@ export class PricingFeedController {
   getRecords = async (req: Request, res: Response): Promise<void> => {
     const requestId = getRequestId();
     try {
-      const { userId, storeId, searchOptions, skip = 0, limit = 10 } = req.body;
+      const { userId, storeId, searchOptions, skip = 0, limit = 50 } = req.body;
       if (!userId) {
         throw new Error("userId is required");
       }

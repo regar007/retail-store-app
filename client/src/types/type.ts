@@ -39,7 +39,7 @@ export type PricingPage = {
 export type SearchOptions = {
   productName?: string;
 
-  sku?: number;
+  sku?: string;
 
-  price?: number,  
+  price?: string,  
 };
