@@ -37,10 +37,10 @@ export const AdminHome: React.FC = (): JSX.Element => {
   console.log("admin home  ", user, openUserDialog);
 
   return (
-    <Stack rowGap={2} direction="column" sx={{ padding: "5%" }}>
-      <Typography variant="h3">Home</Typography>
+    <Stack rowGap={2} direction="column" sx={{ padding: "1%" }}>
+      <Typography variant="h3">Admin Page</Typography>
 
-      <Stack rowGap={1} direction="column" sx={{ paddingY: "5%" }}>
+      <Stack rowGap={1} direction="column" sx={{ paddingY: "1%" }}>
         <Stack direction={'row'} justifyContent={'space-between'}>
         <Typography variant="h6">Users</Typography>
         <Button onClick={() => {

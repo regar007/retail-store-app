@@ -237,7 +237,7 @@ const PricingTable: React.FC<PricingTableProps> = () => {
         isOpen={showUpdateConfirmation}
         message={"Are you sure you want to update records?"}
         onYes={() => updateRecords(loggedInUser.user?.id)}
-        onCancel={() => setShowUpdateConfirmation(null)}
+        onCancel={() => setShowUpdateConfirmation(false)}
       />
       <Stack rowGap={1} direction="column" sx={{ paddingY: "5%" }}>
         <Stack direction={"row"} justifyContent={"space-between"}>

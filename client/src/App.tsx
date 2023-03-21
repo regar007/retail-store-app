@@ -1,16 +1,14 @@
 import React from "react";
-import { Navigate, redirect, Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import { AdminHome } from "./pages/AdminHome";
 import SignIn from "./pages/SignIn";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { UserInitialState } from "./redux-store/user.reducer";
-import ProtectedRoute from "./auth-route/AuthenticatedRoute";
 import { EmployeeHome } from "./pages/EmployeeHome";
 import { UserType } from "./types/type";
 import axios, { AxiosError, AxiosInstance, AxiosResponse } from "axios";
 import localStorageUtils from "./utils/localStorage.utils";
-import { NotificationContainer } from "react-notifications";
-import { Button, ButtonGroup, Stack } from "@mui/material";
+import { Button, Stack, Typography } from "@mui/material";
 
 export function setupInterceptorsTo(
   axiosInstance: AxiosInstance
@@ -41,12 +39,9 @@ const App: React.FC = () => {
   console.log("user ", user);
   return (
     <>
-      <Stack columnGap={2} direction={'row-reverse'}>
-        <ButtonGroup>
-          <Button onClick={() => localStorageUtils.clearSession()}>
-            Logout
-          </Button>
-        </ButtonGroup>
+      <Stack padding={'1%'} display={"flex"} justifyContent={"space-between"} direction={"row"}>
+        <Typography variant="h5">{user.user?.name}</Typography>
+        <Button onClick={() => localStorageUtils.clearSession()}>Logout</Button>
       </Stack>
       <Routes>
         <Route path="/login" element={<SignIn />} />
