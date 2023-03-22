@@ -43,7 +43,7 @@ const App: React.FC = () => {
         {user.user ?
           <Button onClick={() => localStorageUtils.clearSession()}>Logout</Button>
           :
-          <Button onClick={() => redirect('/login')}>Logout</Button>
+          <Button onClick={() => redirect('/login')}>Login</Button>
         }
       </Stack>
       <Routes>
