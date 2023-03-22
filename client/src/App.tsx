@@ -1,5 +1,5 @@
 import React from "react";
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Navigate, redirect, Route, Routes } from "react-router-dom";
 import { AdminHome } from "./pages/AdminHome";
 import SignIn from "./pages/SignIn";
 import { useSelector } from "react-redux";
@@ -18,7 +18,6 @@ export function setupInterceptorsTo(
 }
 
 const onResponse = (response: AxiosResponse): AxiosResponse => {
-  console.info(`[response] [${JSON.stringify(response)}]`);
   return response;
 };
 
@@ -41,7 +40,11 @@ const App: React.FC = () => {
     <>
       <Stack padding={'1%'} display={"flex"} justifyContent={"space-between"} direction={"row"}>
         <Typography variant="h5">{user.user?.name}</Typography>
-        <Button onClick={() => localStorageUtils.clearSession()}>Logout</Button>
+        {user.user ?
+          <Button onClick={() => localStorageUtils.clearSession()}>Logout</Button>
+          :
+          <Button onClick={() => window.location.href =`/login`}>Login</Button>
+        }
       </Stack>
       <Routes>
         <Route path="/login" element={<SignIn />} />
