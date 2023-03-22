@@ -36,8 +36,8 @@
         "typescript": "^5.0.2"
     },
     "scripts": {
-        "start": "react-dotenv && react-scripts start",
-        "build": "react-dotenv && react-scripts build",
+        "start": "react-dotenv && react-scripts --openssl-legacy-provider start",
+        "build": "react-dotenv && react-scripts --openssl-legacy-provider build",
         "test": "react-dotenv && react-scripts test",
         "eject": "react-dotenv && react-scripts eject"
     },
